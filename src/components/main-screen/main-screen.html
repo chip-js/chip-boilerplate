@@ -1,0 +1,41 @@
+<ul>
+  <li><a href="/">Home</a></li>
+  <li><a href="/page1">Page 1</a></li>
+  <li><a href="/page1/page2">Page 2</a></li>
+  <li><a href="/page3">Bad Page</a></li>
+</ul>
+
+<div [route]>
+  <not-found [noroute]></not-found>
+
+  <div [path]="/">
+    <h1>Welcome to Chip<span [if]="name">, {{ name }}</span>!</h1>
+    <h2>Home Page</h2>
+    <form (submit)="sayHello(event)">
+      <input #input [value]="name" [value-events]="input" [autofocus] [autoselect]>
+      <button>Submit to say hi</button>
+    </form>
+
+    <p>View the source to see how to build your app.</p>
+    <p><code>app/assets</code> are your static files, including your <code>index.html</code> file.</p>
+    <p><code>app/components</code> define the components that make up your application.</p>
+    <p>Visit <a href="https://github.com/chip-js/chip">github.com/chip-js/chip</a> for more information about chip.</p>
+  </div>
+
+  <div [path]="/page1*">
+    <h2>Page 1</h2>
+
+    <div [route]>
+      <div [noroute]>
+        <h3>Default page</h3>
+      </div>
+
+      <div [path]="/page2">
+        <h3>Subpage Page 2</h3>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
