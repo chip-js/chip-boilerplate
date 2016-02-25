@@ -28,12 +28,14 @@ var paths = {
     styles: 'css',
     style: 'app.css',
     images: 'img',
+    locales: 'locales',
   },
   scripts: 'index.js',
   images: 'src/img/**/*',
   css: 'src/**/*.css',
   less: 'src/**/*.less',
   stylus: 'src/**/*.styl',
+  locales: 'locales/**',
   files: 'public/**/*'
 };
 
@@ -56,14 +58,12 @@ var postcssPlugins = [
 /* Register some tasks to expose to the cli */
 gulp.task('build', gulp.series(
   clean,
-  gulp.parallel(scripts, images)
+  gulp.parallel(scripts, images, files, locales)
 ));
+
 gulp.task(clean);
 gulp.task(watch);
-
-gulp.task('scripts', scripts);
-gulp.task('files', files);
-gulp.task('test', test);
+gulp.task(test);
 
 // The default task (called when you run `gulp` from cli)
 gulp.task('default', gulp.series('build'));
@@ -123,6 +123,12 @@ function files() {
 }
 
 
+function locales() {
+  return gulp.src(paths.locales)
+    .pipe(gulp.dest(paths.build.dir + '/' + paths.build.locales));
+}
+
+
 function watchScripts() {
   var bundler = watchify(browserify(browserifyOptions));
   bundler.on('log', gutil.log.bind(gutil));
@@ -159,9 +165,11 @@ function watch() {
   images();
   styles();
   files();
+  locales();
   gulp.watch(paths.styles, styles);
   gulp.watch(paths.images, images);
   gulp.watch(paths.files, files);
+  gulp.watch(paths.locales, locales);
 
   liveServer.start({
     root: paths.build.dir,
