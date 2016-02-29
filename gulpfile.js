@@ -166,7 +166,7 @@ function watch() {
   styles();
   files();
   locales();
-  gulp.watch(paths.styles, styles);
+  gulp.watch([paths.css, paths.less, paths.stylus], styles);
   gulp.watch(paths.images, images);
   gulp.watch(paths.files, files);
   gulp.watch(paths.locales, locales);
